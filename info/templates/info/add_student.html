@@ -2,40 +2,100 @@
 <html lang="en">
 
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Homepage </title>
-      {% load static %}
+    <title>Add Student</title>
+    {% load static %}
 
     <!-- Bootstrap core CSS -->
-      <link href="{% static '/info/homepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/info/homepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/info/homepage/css/heroic-features.css' %}" rel="stylesheet">
+    <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
 
-
-    <!-- Custom styles for this template -->
-      <link href="{% static '/info/homepage/css/heroic-features.css' %}" rel="stylesheet">
-          <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-
-
-
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+      .navbar {
+        background: #2c3e50 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .navbar-brand {
+        color: #ecf0f1 !important;
+        font-weight: bold;
+      }
+      .jumbotron {
+        background: #3498db;
+        color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+      .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+      .card-header {
+        background: #2980b9;
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+      }
+      .form-control {
+        border-radius: 8px;
+        border: 1px solid #bdc3c7;
+      }
+      .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25);
+      }
+      .btn-primary {
+        background: #2980b9;
+        border: none;
+        border-radius: 8px;
+      }
+      .btn-primary:hover {
+        background: #3498db;
+      }
+      .btn-secondary {
+        background: #95a5a6;
+        border: none;
+        border-radius: 8px;
+      }
+      .btn-danger {
+        background: #e74c3c;
+        border: none;
+        border-radius: 8px;
+      }
+      .modal-content {
+        border-radius: 15px;
+      }
+      .modal-header {
+        background: #2c3e50;
+        color: white;
+        border-radius: 15px 15px 0 0;
+      }
+    </style>
   </head>
 
   <body>
-
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Hephaetus</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <i class="fas fa-graduation-cap mr-2"></i>Hephaetus
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+              </a>
             </li>
           </ul>
         </div>
@@ -44,113 +104,107 @@
 
     <!-- Page Content -->
     <div class="container">
-
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
-        <h1 class="display-3 text-capitalize">Welcome {{ request.user }}</h1>
+        <h1 class="display-4 text-capitalize">Welcome {{ request.user }}</h1>
+        <p class="lead">Add a new student to the system</p>
       </header>
 
-      <!-- Page Features -->
-      <div class="row text-center justify-content-center">
-        <div class="row justify-content-center">
-            <div class="">
-              <span class="anchor" id="formUserEdit"></span>
-              <hr class="my-5">
-              <div class="card card-outline-secondary" style="min-width: 600px;">
-                <div class="card-header">
-                  <h3 class="mb-0">Student Information</h3>
+      <!-- Form Section -->
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="mb-0"><i class="fas fa-user-plus mr-2"></i>Student Information</h3>
+            </div>
+            <div class="card-body">
+              <form class="form" role="form" method="POST" action="{% url 'add_student' %}">
+                {% csrf_token %}
+                
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label">Class ID</label>
+                  <div class="col-lg-9">
+                    <select class="form-control" name="class" required>
+                      {% for class in all_classes %}
+                        <option value="{{ class.id }}">{{ class }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <form class="form" role="form" method="POST" action="{% url 'add_student' %}">
-                        {% csrf_token %}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Class ID</label>
-                            <div class="col-lg-9">
-                            <select class="form-control" name="class" required>
-                                    {% for class in all_classes %}
-                                        <option value="{{ class.id }}">
-                                            {{ class }}
-                                        </option>
-                                    {% endfor %}
-                            </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">USN</label>
-                        <div class="col-lg-9">
-                            <input class="form-control" name="usn" type="text" placeholder="AB0A00" required>
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Full Name</label>
-                        <div class="col-lg-9">
-                            <input class="form-control" type="text" name="full_name" placeholder="Anil Kumar" required>
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Sex</label>
-                            <div class="col-lg-9">
-                            <select class="form-control" name="sex" required>
-                                <option value="Male">
-                                    Male
-                                </option>
-                                <option value="Female">
-                                    Female
-                                </option>
-                            </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label">Date of Birth</label>
-                            <div class="col-lg-9">
-                                <input class="form-control" name="dob" type="date" required>
-                            </div>
-                        </div>
 
-
-                    <div class="form-group row justify-content-left">
-                        <div class="ml-auto mr-3">
-                            <a class="btn btn-danger" href="{% url 'index' %}"> Cancel </a>
-                            <input class="btn btn-secondary ml-auto" type="reset" value="Reset"> 
-                            <input class="btn btn-primary ml-auto" type="submit" value="Submit">
-                        </div>
-                    </div>
-                  </form>
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label">USN</label>
+                  <div class="col-lg-9">
+                    <input class="form-control" name="usn" type="text" placeholder="AB0A00" required>
+                  </div>
                 </div>
-              </div>
+
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label">Full Name</label>
+                  <div class="col-lg-9">
+                    <input class="form-control" type="text" name="full_name" placeholder="Anil Kumar" required>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label">Sex</label>
+                  <div class="col-lg-9">
+                    <select class="form-control" name="sex" required>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-lg-3 col-form-label">Date of Birth</label>
+                  <div class="col-lg-9">
+                    <input class="form-control" name="dob" type="date" required>
+                  </div>
+                </div>
+
+                <div class="form-group row justify-content-end">
+                  <div class="col-lg-9">
+                    <a class="btn btn-danger" href="{% url 'index' %}">
+                      <i class="fas fa-times mr-2"></i>Cancel
+                    </a>
+                    <button class="btn btn-secondary ml-2" type="reset">
+                      <i class="fas fa-redo mr-2"></i>Reset
+                    </button>
+                    <button class="btn btn-primary ml-2" type="submit">
+                      <i class="fas fa-save mr-2"></i>Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-        
+        </div>
       </div>
-      <!-- /.row -->
-
     </div>
-    <!-- /.container -->
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="/accounts/logout">Logout</a>
+            <a class="btn btn-primary" href="/accounts/login">Logout</a>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Bootstrap core JavaScript -->
-
-
-      <script src="{% static '/info/homepage/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static '/info/homepage/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static '/info/homepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   </body>
-
 </html>
