@@ -2,51 +2,142 @@
 <html lang="en">
 
   <head>
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Login</title>
-
-      {% load static %}
-
-    <!-- Bootstrap core CSS-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | College ERP</title>
+    {% load static %}
+    
     <link href="{% static '/info/bootstrap/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4e73df;
+            --info: #36b9cc;
+        }
 
-    <!-- Custom fonts for this template-->
-    <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
 
-    <!-- Custom styles for this template-->
-    <link href="{% static '/info/bootstrap/css/sb-admin.css' %}" rel="stylesheet">
+        .login-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
 
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .login-header {
+            background: linear-gradient(45deg, var(--primary), var(--info));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border-radius: 10rem;
+            padding: 1.5rem 1rem;
+            font-size: 0.9rem;
+            border: 1px solid #d1d3e2;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+
+        .btn-login {
+            border-radius: 10rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary), var(--info));
+            border: none;
+            color: white;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
+        }
+
+        .error-message {
+            color: #e74a3b;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
   </head>
 
-  <body class="bg-dark">
-
-    <div class="container">
-      <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Login</div>
-        <div class="card-body">
-            <form method="post">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <button  class="btn btn-success" type="submit">Login</button>
-            </form>
-
+  <body>
+    <div class="login-card">
+        <div class="login-header">
+            <i class="fas fa-graduation-cap login-icon"></i>
+            <h3 class="mb-0">College ERP</h3>
         </div>
-      </div>
+        
+        <div class="login-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    Invalid username or password
+                </div>
+                {% endif %}
+                
+                <div class="form-group">
+                    <label class="font-weight-bold">
+                        <i class="fas fa-user mr-2"></i>Username
+                    </label>
+                    {{ form.username }}
+                </div>
+                
+                <div class="form-group">
+                    <label class="font-weight-bold">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    {{ form.password }}
+                </div>
+                
+                <button type="submit" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login
+                </button>
+            </form>
+        </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
     <script src="{% static '/info/bootstrap/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static '/info/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static '/info/bootstrap/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
   </body>
 
 </html>

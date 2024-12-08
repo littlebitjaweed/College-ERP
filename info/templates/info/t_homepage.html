@@ -1,157 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <title>Homepage</title>
-      {% load static %}
+    {% load static %}
 
     <!-- Bootstrap core CSS -->
-      <link href="{% static '/info/homepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/info/homepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 80px; /* Increased to account for taller navbar */
+        }
 
+        .navbar {
+            background: var(--primary-color) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 80px; /* Increased height */
+            padding: 15px 0; /* Added more padding */
+        }
 
-    <!-- Custom styles for this template -->
-      <link href="{% static '/info/homepage/css/heroic-features.css' %}" rel="stylesheet">
-          <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        .navbar-brand {
+            font-size: 1.8rem; /* Increased font size */
+            font-weight: bold;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            padding: 0 15px; /* Added padding */
+        }
 
+        .navbar-logo {
+            height: 50px; /* Increased logo size */
+            margin-right: 15px; /* Increased margin */
+        }
 
+        .jumbotron {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
-  </head>
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            height: 100%;
+            background: #fff;
+            overflow: hidden;
+        }
 
-  <body>
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
 
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            background: #f8f9fa;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding: 1.25rem 2rem;
+            position: relative;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        .modal-header {
+            background: var(--primary-color);
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .close {
+            color: white;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            transition: color 0.3s ease;
+            font-size: 1.2rem; /* Increased font size */
+            padding: 10px 20px !important; /* Increased padding */
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Hephaetus</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link text-capitalize">{{ request.user.student.name }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-            </li>
-          </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <div style="display: flex; align-items: center;">
+                    <!-- <img src="{% static 'info/images/logo_new_jss.png' %}" alt="Logo" class="navbar-logo"> -->
+                    <span style="margin-left: 10px;">Hephaetus</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-capitalize">
+                            <i class="fas fa-user mr-1"></i>{{ request.user.student.name }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
 
     <!-- Page Content -->
     <div class="container">
+        <!-- Jumbotron Header -->
+        <header class="jumbotron my-4">
+            <h1 class="display-4 text-capitalize">
+                <i class="fas fa-chalkboard-teacher mr-3"></i>
+                Welcome {{ request.user.teacher.name }}
+            </h1>
+        </header>
 
-      <!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
-        <h1 class="display-3 text-capitalize">Welcome {{ request.user.teacher.name }}</h1>
-{#        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>#}
-{#        <a href="#" class="btn btn-primary btn-lg">Call to action!</a>#}
-      </header>
-
-      <!-- Page Features -->
-      <div class="row text-center">
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-              <a href="{% url 't_clas' request.user.teacher.id 1 %}">
-                <img class="card-img-top" src="{% static 'info/images/attendance2.jpg' %}" alt="">
-              </a>
-              <div class="card-body">
-              <h4 class="card-title">Attendance</h4>
-              <p class="card-text">Enter the attendance of the students based on the class they are in. There is also
-                  the provision to edit the attendance of a whole class or student individually.</p>
+        <!-- Page Features -->
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <a href="{% url 't_clas' request.user.teacher.id 1 %}">
+                        <img class="card-img-top" src="{% static 'info/images/attendance2.png' %}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-clipboard-check mr-2"></i>Attendance</h4>
+                        <p class="card-text">Enter and manage student attendance records with easy editing options for both individual students and entire classes.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="{% url 't_clas' request.user.teacher.id 1 %}">
+                            <i class="fas fa-pencil-alt mr-2"></i>Enter Attendance
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 't_clas' request.user.teacher.id 1 %}"> Enter Attendance</a>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <a href="{% url 't_clas' request.user.teacher.id 2 %}">
+                        <img class="card-img-top" src="{% static 'info/images/marks.png' %}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-chart-bar mr-2"></i>Marks</h4>
+                        <p class="card-text">Manage student marks including Internals, Events and SEE. Update and edit marks with ease.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="{% url 't_clas' request.user.teacher.id 2 %}">
+                            <i class="fas fa-plus-circle mr-2"></i>Enter Marks
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <a href="{% url 't_timetable' request.user.teacher.id %}">
+                        <img class="card-img-top" src="{% static 'info/images/timetable.png' %}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-calendar-alt mr-2"></i>TimeTable</h4>
+                        <p class="card-text">Access comprehensive timetable view with details of available teachers for each time slot.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="{% url 't_timetable' request.user.teacher.id %}">
+                            <i class="fas fa-eye mr-2"></i>View TimeTable
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <a href="{% url 't_clas' request.user.teacher.id 3 %}">
+                        <img class="card-img-top" src="{% static 'info/images/report.png' %}" alt="">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-file-alt mr-2"></i>Reports</h4>
+                        <p class="card-text">Generate detailed class reports including CIE scores and attendance records for all students.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="{% url 't_clas' request.user.teacher.id 3 %}">
+                            <i class="fas fa-file-export mr-2"></i>Generate Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-              <a href="{% url 't_clas' request.user.teacher.id 2 %}">
-                <img class="card-img-top" src="{% static 'info/images/marks.jpg' %}" alt="">
-              </a>
-              <div class="card-body">
-              <h4 class="card-title">Marks</h4>
-              <p class="card-text">Enter the marks of the students based on the class they are in. This includes
-                    Internals, events and SEE. The marks of the students can also be edited.</p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 't_clas' request.user.teacher.id 2 %}">Enter Marks</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-              <a href="{% url 't_timetable' request.user.teacher.id %}">
-                <img class="card-img-top" src="{% static 'info/images/timetable.png' %}" alt="">
-              </a>
-              <div class="card-body">
-              <h4 class="card-title">TimeTable</h4>
-              <p class="card-text">View the timetable in a tabular form. For a particular class, it specifies a
-                  list of teachers who handle the same class that are free for that time slot.</p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 't_timetable' request.user.teacher.id %}">View TimeTable</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <a href="{% url 't_clas' request.user.teacher.id 3 %}">
-                <img class="card-img-top" src="{% static 'info/images/reports.png' %}" alt="">
-            </a>
-            <div class="card-body">
-              <h4 class="card-title">Reports</h4>
-              <p class="card-text">Generate reports for each class. These reports include generating a table consisting
-                    of the students belonging to that class and their respective CIE and Attendance.</p>
-            </div>
-            <div class="card-footer">
-              <a href="{% url 't_clas' request.user.teacher.id 3 %}" class="btn btn-primary">Generate Reports</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.row -->
-
     </div>
-    <!-- /.container -->
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="/accounts/logout">Logout</a>
-          </div>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Ready to Leave?
+                    </h5>
+                    <button class="close" type="button" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/accounts/login">Logout</a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Bootstrap core JavaScript -->
-
-
-      <script src="{% static '/info/homepage/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static '/info/homepage/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static '/info/homepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-  </body>
-
+</body>
 </html>
